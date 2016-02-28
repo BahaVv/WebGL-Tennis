@@ -3,6 +3,8 @@ var program;
 var transY1 = 0.0;
 var transY2 = 0.0;
 
+var keys = {};
+
 function initGL(){
   var canvas = document.getElementById( "canvas" );
 
@@ -63,24 +65,23 @@ function render() {
   var fragColorLoc = gl.getUniformLocation(program, "fragColor");
   gl.uniform4f(fragColorLoc, 1.0, 1.0, 1.0, 1.0);
 
+  keyUpdate();
+
   requestAnimFrame(render);
 }
 
-function keyInput(event) {
-  switch (event.keyCode) {
-    case 87: // w
-      transY1 += 0.05;
-      break;
-    case 83: // s
-      transY1 -= 0.05;
-      break;
+function keyUpdate() {
+  if(keys[87]) transY1 += 0.05;
+  if(keys[83]) transY1 -= 0.05;
 
-    case 38: // up arrow
-      transY2 += 0.05;
-      break;
-    case 40: // down arrow
-      transY2 -= 0.05;
-    default:
+  if(keys[38]) transY2 += 0.05;
+  if(keys[40]) transY2 -= 0.05;
+}
 
-  }
+function keyDown(event) {
+  keys[event.keyCode] = true;
+}
+
+function keyUp(event) {
+  keys[event.keyCode] = false;
 }
