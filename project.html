@@ -5,20 +5,53 @@
 <title>WebGL Tetris</title>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
+  attribute vec4 vertexPosition;
 
+  void main() {
+    gl_Position = vertexPosition;
+  }
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
+  precision mediump float;
+  uniform vec4 fragColor;
 
+  void main() {
+    gl_FragColor = fragColor;
+  }
 </script>
 
 <script type="text/javascript" src="Common/webgl-utils.js"></script>
 <script type="text/javascript" src="Common/InitShaders.js"></script>
 <script type="text/javascript" src="Common/MV.js"></script>
 <script type="text/javascript" src="main.js"></script>
+
+<style media="screen">
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+  body {
+    margin: 0;
+    padding: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: #eeeeee;
+    font-family: "Open Sans";
+    font-size: 15px;
+  }
+
+  canvas {
+    margin: 0 400px;
+  }
+
+  h1, p{
+    text-align: center;
+  }
+</style>
 </head>
 
-<body onload = "initGL()">
-  <canvas id="canvas" width="512" height="512"></canvas>
+<body onload = "initGL()" onkeydown="keyInput(event)">
+  <h1>WebGL Tennis</h1>
+  <canvas id="canvas" width="600" height="600"></canvas>
+  <p> Player 1 Controls: WASD </p>
+  <p> Player 2 Controls: Arrow Keys </p>
 </body>
 </html>
