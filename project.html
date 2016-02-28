@@ -6,9 +6,16 @@
 
 <script id="vertex-shader" type="x-shader/x-vertex">
   attribute vec4 vertexPosition;
+  precision mediump float;
+  uniform float transY;
+
+  mat4 transMat = mat4(1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, transY, 0, 1);
 
   void main() {
-    gl_Position = vertexPosition;
+    gl_Position = transMat * vertexPosition;
   }
 </script>
 
