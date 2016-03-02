@@ -1,5 +1,6 @@
 var gl;
 var program;
+
 var transY1 = 0.0;
 var transY2 = 0.0;
 
@@ -90,6 +91,7 @@ function render() {
   gl.uniform4f(fragColorLoc, 1.0, 1.0, 1.0, 1.0);
 
   keyUpdate();
+  ballCollisionUpdate();
 
   requestAnimFrame(render);
 }
@@ -106,10 +108,26 @@ function renderRightPaddle() {
   gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
 }
 
+var foo = 0;
+var meow = 1;
+
 function renderBall() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
-  gl.uniform1f(transYLoc, 0);
+  gl.uniform1f(transYLoc, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
+  foo = 0.01 * meow;
+  ball.y = ball.y + foo;
+}
+
+function ballCollisionUpdate() {
+  console.log(foo);
+  console.log(ball.y);
+  if(ball.y > 1) {
+    meow = -1;
+  }
+  if(ball.y < -1) {
+    meow = 1;
+  }
 }
 
 function keyUpdate() {
