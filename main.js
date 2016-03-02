@@ -59,7 +59,7 @@ function initGL(){
   gl = WebGLUtils.setupWebGL( canvas );
   if ( !gl ) { alert( "WebGL isn't available" ); }
 
-  gl.viewport( 0, 0, 600, 600);
+  gl.viewport( 0, 0, 800, 800);
   gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 
   initObjects();
