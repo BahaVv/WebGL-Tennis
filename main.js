@@ -3,7 +3,55 @@ var program;
 var transY1 = 0.0;
 var transY2 = 0.0;
 
+var transYLoc;
+
 var keys = {};
+
+var leftpaddle, rightpaddle, ball;
+
+function initObjects() {
+  leftpaddle = {
+    x: -0.875,
+    y: 0,
+    w: 0.05,
+    h: 0.5,
+    speed: 0,
+    vertices: [
+      vec2(-0.9, 0.25),
+      vec2(-0.85, 0.25),
+      vec2(-0.85, -0.25),
+      vec2(-0.9, -0.25)
+    ]
+  };
+
+  rightpaddle = {
+    x: 0,
+    y: 0,
+    w: 0.05,
+    h: 0.5,
+    speed: 0,
+    vertices: [
+      vec2(0.85, 0.25),
+      vec2(0.9, 0.25),
+      vec2(0.9, -0.25),
+      vec2(0.85, -0.25)
+    ]
+  };
+
+  ball = {
+    x: 0,
+    y: 0,
+    w: 0.04,
+    h: 0.04,
+    speed: 0,
+    vertices: [
+      vec2(-0.02, 0.02),
+      vec2(0.02, 0.02),
+      vec2(0.02, -0.02),
+      vec2(-0.02, -0.02)
+    ]
+  };
+}
 
 function initGL(){
   var canvas = document.getElementById( "canvas" );
@@ -14,36 +62,19 @@ function initGL(){
   gl.viewport( 0, 0, 600, 600);
   gl.clearColor( 0.0, 0.0, 0.0, 1.0 );
 
-  var  vertArray = [
-    // Left Paddle
-    vec4(-0.9, 0.25, 0.0, 1.0),
-    vec4(-0.85, 0.25, 0.0, 1.0),
-    vec4(-0.85, -0.25, 0.0, 1.0),
-    vec4(-0.9, -0.25, 0.0, 1.0),
-
-    // Ball
-    vec4(-0.02, 0.02, 0.0, 1.0),
-    vec4(0.02, 0.02, 0.0, 1.0),
-    vec4(0.02, -0.02, 0.0, 1.0),
-    vec4(-0.02, -0.02, 0.0, 1.0),
-
-    // Right Paddle
-    vec4(0.85, 0.25, 0.0, 1.0),
-    vec4(0.9, 0.25, 0.0, 1.0),
-    vec4(0.9, -0.25, 0.0, 1.0),
-    vec4(0.85, -0.25, 0.0, 1.0)
-  ];
+  initObjects();
 
   program = initShaders( gl, "vertex-shader", "fragment-shader" );
   gl.useProgram( program );
 
   var vertexBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, flatten(vertArray), gl.STATIC_DRAW);
 
   var vertexPositionLoc = gl.getAttribLocation(program, "vertexPosition");
-  gl.vertexAttribPointer(vertexPositionLoc, 4, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(vertexPositionLoc, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(vertexPositionLoc);
+
+  transYLoc = gl.getUniformLocation(program, "transY");
 
   render();
 }
@@ -51,16 +82,9 @@ function initGL(){
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  var transYLoc = gl.getUniformLocation(program, "transY");
-
-  gl.uniform1f(transYLoc, transY1);
-  gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-
-  gl.uniform1f(transYLoc, 0);
-  gl.drawArrays(gl.TRIANGLE_FAN, 4, 4);
-
-  gl.uniform1f(transYLoc, transY2);
-  gl.drawArrays(gl.TRIANGLE_FAN, 8, 4);
+  renderLeftPaddle();
+  renderBall();
+  renderRightPaddle();
 
   var fragColorLoc = gl.getUniformLocation(program, "fragColor");
   gl.uniform4f(fragColorLoc, 1.0, 1.0, 1.0, 1.0);
@@ -68,6 +92,24 @@ function render() {
   keyUpdate();
 
   requestAnimFrame(render);
+}
+
+function renderLeftPaddle() {
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(leftpaddle.vertices), gl.STATIC_DRAW);
+  gl.uniform1f(transYLoc, transY1);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, leftpaddle.vertices.length);
+}
+
+function renderRightPaddle() {
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(rightpaddle.vertices), gl.STATIC_DRAW);
+  gl.uniform1f(transYLoc, transY2);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
+}
+
+function renderBall() {
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
+  gl.uniform1f(transYLoc, 0);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
 }
 
 function keyUpdate() {
