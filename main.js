@@ -64,10 +64,12 @@ function initObjects() {
   field = {
     score1: 0, // P1 score
 	  score2: 0, // P2 score
-	vertices: [
-
-	]
+	  vertices: []
   };
+
+  for(var i = -1.0; i < 1.0; i += 0.05) {
+    field.vertices.push(vec2(0.0, 0.025 + Number((i.toFixed(3)))));
+  }
 }
 
 /* initGL(): Spin up initial WebGL program state */
@@ -107,6 +109,7 @@ function initGL(){
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT); // Clear the buffer
 
+  renderMidLine();
   renderLeftPaddle();
   renderBall();
   renderRightPaddle();
@@ -118,6 +121,12 @@ function render() {
   ballCollisionUpdate(); // Check ball collision
 
   requestAnimFrame(render); // Inform the browser we're ready to render another frame
+}
+
+function renderMidLine() {
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(field.vertices), gl.STATIC_DRAW);
+  gl.uniform2f(transLoc, 0, 0);
+  gl.drawArrays(gl.LINES, 0, field.vertices.length);
 }
 
 /* renderLeftPaddle(): Render P1 vertices */
