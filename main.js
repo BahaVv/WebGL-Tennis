@@ -139,7 +139,8 @@ function renderBall() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
-  transXBall = 0.01 * yDir;
+  transXBall = 0.01;
+  ball.x += transXBall;
   // ball.y = ball.y + transYBall;
 }
 
