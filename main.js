@@ -3,6 +3,9 @@ var program; // Shader program (should contain vertex & fragment shaders)
 
 var transY1 = 0.0; // Variable containing vertical translation for first paddle
 var transY2 = 0.0; // Variable containing vertical translation for second paddle
+var transYBall = 0.0; // Variable containing vertical translation for ball
+
+var yDir = 1; // The direction of the ball in the y-axis
 
 var transYLoc; // transY Uniform location from shader
 
@@ -13,7 +16,7 @@ var leftpaddle, rightpaddle, ball, field; // Game objects
 /* initObjects(): Initialize game state for all basic game objects */
 function initObjects() {
   // P1
-  leftpaddle = { 
+  leftpaddle = {
     x: -0.875,
     y: 0,
     w: 0.05,
@@ -56,13 +59,13 @@ function initObjects() {
       vec2(-0.02, -0.02)
     ]
   };
-  
+
   // Play field
   field = {
     score1: 0, // P1 score
-	score2: 0, // P2 score
+	  score2: 0, // P2 score
 	vertices: [
-	  
+
 	]
   };
 }
@@ -95,7 +98,7 @@ function initGL(){
   render();
 }
 
-/* render(): Main event loop, controls vertex/fragment rendering and fires 
+/* render(): Main event loop, controls vertex/fragment rendering and fires
    collision detection/score update functions when necessary. */
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT); // Clear the buffer
@@ -127,27 +130,22 @@ function renderRightPaddle() {
   gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
 }
 
-var foo = 0; // Really, Ben?
-var meow = 1; // REALLY, Ben?
-
 /* renderBall(): I mean...yeah. Renders the ball. */
 function renderBall() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
   gl.uniform1f(transYLoc, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
-  foo = 0.01 * meow;
+  transYBall = 0.01 * yDir;
   ball.y = ball.y + foo;
 }
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
 function ballCollisionUpdate() {
-  console.log(foo);
-  console.log(ball.y);
   if(ball.y > 1) {
-    meow = -1;
+    yDir = -1;
   }
   if(ball.y < -1) {
-    meow = 1;
+    yDir = 1;
   }
 }
 
@@ -162,7 +160,7 @@ function keyUpdate() {
 
 /* keyDown(): Fires when key is pressed down, sets that key to pressed in the global keys variable */
 // TODO: Less memory intensive way of doing this?
-function keyDown(event) { 
+function keyDown(event) {
   keys[event.keyCode] = true;
 }
 

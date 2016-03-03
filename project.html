@@ -6,7 +6,7 @@
 
 <script id="vertex-shader" type="x-shader/x-vertex">
   // TODO: Move this into separate .glsl file
-  
+
   precision mediump float;// Float precision -- medium should be compatible with all
                            // graphics cards post-2011 integrated, or post-2009 dedicated
   attribute vec4 vertexPosition; // Fed from initGL
@@ -38,34 +38,8 @@
 <script type="text/javascript" src="Common/MV.js"></script>
 <script type="text/javascript" src="main.js"></script>
 
-<style media="screen">
-  @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-  body {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-    margin: 0;
-    padding: 0;
-	height: 100vh;
-    max-width: 1400px;
-    margin: 0 auto;
-	color: #808080;
-    background-color: #002b36;
-    font-family: "Open Sans";
-    font-size: 15px;
-  }
+<link href="style.css" rel="stylesheet">
 
-  canvas {
-    margin: 0 310px;
-	border-radius: 20px;
-	box-shadow: 4px 4px 4px #202020;
-  }
-
-  h1, p{
-    text-align: center;
-  }
-</style>
 </head>
 
 <body onload = "initGL()" onkeydown="keyDown(event)" onkeyup="keyUp(event)">
