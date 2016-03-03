@@ -123,14 +123,14 @@ function render() {
 /* renderLeftPaddle(): Render P1 vertices */
 function renderLeftPaddle() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(leftpaddle.vertices), gl.STATIC_DRAW);
-  gl.uniform1f(transLoc, 0, transY1);
+  gl.uniform2f(transLoc, 0, transY1);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, leftpaddle.vertices.length);
 }
 
 /* renderRightPaddle(): Render P2 vertices */
 function renderRightPaddle() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(rightpaddle.vertices), gl.STATIC_DRAW);
-  gl.uniform1f(transLoc, 0, transY2);
+  gl.uniform2f(transLoc, 0, transY2);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
 }
 
