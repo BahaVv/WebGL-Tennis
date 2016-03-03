@@ -1,0 +1,27 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: #808080;
+  background-color: #002b36;
+  font-family: "Open Sans";
+  font-size: 15px;
+}
+
+canvas {
+  margin: 0 310px;
+  border-radius: 20px;
+  box-shadow: 4px 4px 4px #202020;
+}
+
+h1, p{
+  text-align: center;
+}

@@ -176,6 +176,7 @@ function keyUpdate() {
 /* keyDown(): Fires when key is pressed down, sets that key to pressed in the global keys variable */
 // TODO: Less memory intensive way of doing this?
 function keyDown(event) {
+  event.preventDefault();
   keys[event.keyCode] = true;
 }
 
