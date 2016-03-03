@@ -163,7 +163,7 @@ function ballCollisionUpdate() {
 
 /* resetBall(playerNum): resets the ball to be in the center of the screen and facing the
    player indicated by playerNum */
-functon resetBall(playerNum) {
+function resetBall(playerNum) {
   ball.x = 0;
   ball.y = 0;
   transXBall = 0;
