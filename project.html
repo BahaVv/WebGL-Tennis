@@ -10,13 +10,13 @@
   precision mediump float;// Float precision -- medium should be compatible with all
                            // graphics cards post-2011 integrated, or post-2009 dedicated
   attribute vec4 vertexPosition; // Fed from initGL
-  uniform float transY; // Fed from render() via its render*() subfunctions
+  uniform vec2 trans; // Fed from render() via its render*() subfunctions
 
   mat4 transMat = mat4( // Translation matrix: Only Y axis so far!
     1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
-    0, transY, 0, 1
+    trans.x, trans.y, 0, 1
   );
 
   void main() {

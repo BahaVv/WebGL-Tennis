@@ -7,7 +7,7 @@ var transYBall = 0.0; // Variable containing vertical translation for ball
 
 var yDir = 1; // The direction of the ball in the y-axis
 
-var transYLoc; // transY Uniform location from shader
+var transLoc; // trans Uniform location from shader
 
 var keys = {}; // Variable used to store currently pressed keys
 
@@ -97,7 +97,7 @@ function initGL(){
   gl.vertexAttribPointer(vertexPositionLoc, 2, gl.FLOAT, false, 0, 0); // Initialize it as an Attrib Array
   gl.enableVertexAttribArray(vertexPositionLoc); // Bind it as currently used attrib array
 
-  transYLoc = gl.getUniformLocation(program, "transY"); // Populate global variable w/ transY location
+  transLoc = gl.getUniformLocation(program, "trans"); // Populate global variable w/ trans location
 
   render();
 }
@@ -123,24 +123,24 @@ function render() {
 /* renderLeftPaddle(): Render P1 vertices */
 function renderLeftPaddle() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(leftpaddle.vertices), gl.STATIC_DRAW);
-  gl.uniform1f(transYLoc, transY1);
+  gl.uniform1f(transLoc, 0, transY1);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, leftpaddle.vertices.length);
 }
 
 /* renderRightPaddle(): Render P2 vertices */
 function renderRightPaddle() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(rightpaddle.vertices), gl.STATIC_DRAW);
-  gl.uniform1f(transYLoc, transY2);
+  gl.uniform1f(transLoc, 0, transY2);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
 }
 
 /* renderBall(): I mean...yeah. Renders the ball. */
 function renderBall() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
-  gl.uniform1f(transYLoc, ball.y);
+  gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
-  transYBall = 0.01 * yDir;
-  ball.y = ball.y + transYBall;
+  transXBall = 0.01 * yDir;
+  // ball.y = ball.y + transYBall;
 }
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
@@ -151,9 +151,25 @@ function ballCollisionUpdate() {
   if(ball.y < -1) {
     yDir = 1;
   }
+  if(ball.x > 1) {
+    updateScore(1);
+    resetBall(2);
+  }
+  if(ball.x < -1) {
+    updateScore(2);
+    resetBall(1);
+  }
 }
 
-/* updateScore(player): updates the score of player #playerNum */
+/* resetBall(playerNum): resets the ball to be in the center of the screen and facing the
+   player indicated by playerNum */
+functon resetBall(playerNum) {
+  ball.x = 0;
+  ball.y = 0;
+  transXBall = 0;
+}
+
+/* updateScore(playerNum): updates the score of player #playerNum */
 function updateScore(playerNum) {
   if(playerNum == 1) {
     field.score1 += 1;
