@@ -5,26 +5,31 @@
 <title>WebGL Tennis</title>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
-  attribute vec4 vertexPosition;
-  precision mediump float;
-  uniform float transY;
+  // TODO: Move this into separate .glsl file
+  
+  precision mediump float;// Float precision -- medium should be compatible with all
+                           // graphics cards post-2011 integrated, or post-2009 dedicated
+  attribute vec4 vertexPosition; // Fed from initGL
+  uniform float transY; // Fed from render() via its render*() subfunctions
 
-  mat4 transMat = mat4(1, 0, 0, 0,
+  mat4 transMat = mat4( // Translation matrix: Only Y axis so far!
+    1, 0, 0, 0,
     0, 1, 0, 0,
     0, 0, 1, 0,
-    0, transY, 0, 1);
+    0, transY, 0, 1
+  );
 
   void main() {
-    gl_Position = transMat * vertexPosition;
+    gl_Position = transMat * vertexPosition; // Vf = M * Vi
   }
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
-  precision mediump float;
-  uniform vec4 fragColor;
+  precision mediump float; // See comment in vertex shader
+  uniform vec4 fragColor; // Fed from render()
 
   void main() {
-    gl_FragColor = fragColor;
+    gl_FragColor = fragColor; // Set everything to the same color! (White, presently)
   }
 </script>
 
