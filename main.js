@@ -82,6 +82,10 @@ function initGL(){
 
   initObjects(); // Spin up game state
 
+  // Set up score in webpage
+  document.getElementById('score1').innerHTML = field.score1;
+  document.getElementById('score2').innerHTML = field.score2;
+
   program = initShaders( gl, "vertex-shader", "fragment-shader" ); // Spin up our shader programs
   gl.useProgram( program ); // Bind shader program 'program' to currently used set of shaders
 
@@ -136,7 +140,7 @@ function renderBall() {
   gl.uniform1f(transYLoc, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
   transYBall = 0.01 * yDir;
-  ball.y = ball.y + foo;
+  ball.y = ball.y + transYBall;
 }
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
@@ -146,6 +150,17 @@ function ballCollisionUpdate() {
   }
   if(ball.y < -1) {
     yDir = 1;
+  }
+}
+
+/* updateScore(player): updates the score of player #playerNum */
+function updateScore(playerNum) {
+  if(playerNum == 1) {
+    field.score1 += 1;
+    document.getElementById('score1').innerHTML = field.score1;
+  } else {
+    field.score2 += 1;
+    document.getElementById('score2').innerHTML = field.score2;
   }
 }
 
