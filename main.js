@@ -20,13 +20,13 @@ function initObjects() {
     x: -0.875,
     y: 0,
     w: 0.05,
-    h: 0.5,
+    h: 0.3,
     speed: 0,
     vertices: [
-      vec2(-0.9, 0.25),
-      vec2(-0.85, 0.25),
-      vec2(-0.85, -0.25),
-      vec2(-0.9, -0.25)
+      vec2(-0.9, 0.15),
+      vec2(-0.85, 0.15),
+      vec2(-0.85, -0.15),
+      vec2(-0.9, -0.15)
     ]
   };
 
@@ -35,13 +35,13 @@ function initObjects() {
     x: 0,
     y: 0,
     w: 0.05,
-    h: 0.5,
+    h: 0.3,
     speed: 0,
     vertices: [
-      vec2(0.85, 0.25),
-      vec2(0.9, 0.25),
-      vec2(0.9, -0.25),
-      vec2(0.85, -0.25)
+      vec2(0.85, 0.15),
+      vec2(0.9, 0.15),
+      vec2(0.9, -0.15),
+      vec2(0.85, -0.15)
     ]
   };
 
@@ -123,6 +123,7 @@ function render() {
   requestAnimFrame(render); // Inform the browser we're ready to render another frame
 }
 
+/* renderMidLine(): Render the dashed line in the middle of the canvas */
 function renderMidLine() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(field.vertices), gl.STATIC_DRAW);
   gl.uniform2f(transLoc, 0, 0);
@@ -177,6 +178,11 @@ function resetBall(playerNum) {
   ball.x = 0;
   ball.y = 0;
   transXBall = 0;
+}
+
+/* changeColor(): update the ball with a random color after a paddle collision */
+function changeColor() {
+  ball.color = vec4()
 }
 
 /* updateScore(playerNum): updates the score of player #playerNum */
