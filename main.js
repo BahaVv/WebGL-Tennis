@@ -144,12 +144,13 @@ function renderRightPaddle() {
   gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
 }
 
+transXBall = 0.01;
+
 /* renderBall(): I mean...yeah. Renders the ball. */
 function renderBall() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
-  transXBall = 0.01;
   ball.x += transXBall;
   // ball.y = ball.y + transYBall;
 }
@@ -164,11 +165,11 @@ function ballCollisionUpdate() {
   }
   if(ball.x > 1) {
     updateScore(1);
-    resetBall(2);
+    resetBall(1);
   }
   if(ball.x < -1) {
     updateScore(2);
-    resetBall(1);
+    resetBall(2);
   }
 }
 
@@ -177,7 +178,7 @@ function ballCollisionUpdate() {
 function resetBall(playerNum) {
   ball.x = 0;
   ball.y = 0;
-  transXBall = 0;
+  transXBall = 0.01 * ((playerNum % 2) ? -1 : 1);
 }
 
 /* changeColor(): update the ball with a random color after a paddle collision */
