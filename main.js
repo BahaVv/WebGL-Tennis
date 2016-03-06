@@ -19,14 +19,14 @@ function initObjects() {
   leftpaddle = {
     x: -0.875,
     y: 0,
-    w: 0.05,
-    h: 0.3,
+    width: 0.05,
+    height: 0.4,
     speed: 0,
     vertices: [
-      vec2(-0.95, 0.15),
-      vec2(-0.9, 0.15),
-      vec2(-0.9, -0.15),
-      vec2(-0.95, -0.15)
+      vec2(-0.95, 0.20),
+      vec2(-0.9, 0.20),
+      vec2(-0.9, -0.20),
+      vec2(-0.95, -0.20)
     ]
   };
 
@@ -34,14 +34,14 @@ function initObjects() {
   rightpaddle = {
     x: 0,
     y: 0,
-    w: 0.05,
-    h: 0.3,
+    width: 0.05,
+    height: 0.4,
     speed: 0,
     vertices: [
-      vec2(0.9, 0.15),
-      vec2(0.95, 0.15),
-      vec2(0.95, -0.15),
-      vec2(0.9, -0.15)
+      vec2(0.9, 0.20),
+      vec2(0.95, 0.20),
+      vec2(0.95, -0.20),
+      vec2(0.9, -0.20)
     ]
   };
 
@@ -49,24 +49,25 @@ function initObjects() {
   ball = {
     x: 0,
     y: 0,
-    w: 0.04,
-    h: 0.04,
+    width: 0.04,
+    height: 0.06,
     speed: 0,
     vertices: [
-      vec2(-0.02, 0.02),
-      vec2(0.02, 0.02),
-      vec2(0.02, -0.02),
-      vec2(-0.02, -0.02)
+      vec2(-0.02, 0.03),
+      vec2(0.02, 0.03),
+      vec2(0.02, -0.03),
+      vec2(-0.02, -0.03)
     ]
   };
 
   // Play field
   field = {
     score1: 0, // P1 score
-	  score2: 0, // P2 score
-	  vertices: []
+	score2: 0, // P2 score
+	vertices: []
   };
 
+  // Initialize the playing field's line
   for(var i = -1.0; i < 1.0; i += 0.05) {
     field.vertices.push(vec2(0.0, 0.025 + Number((i.toFixed(3)))));
   }
@@ -79,7 +80,7 @@ function initGL(){
   gl = WebGLUtils.setupWebGL( canvas );
   if ( !gl ) { alert( "WebGL isn't available" ); }
 
-  gl.viewport( 0, 0, 800, 800); // Viewport size 800x800
+  gl.viewport( 0, 0, 1024, 768); // Viewport size 800x800
   gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // Background color is black!
 
   initObjects(); // Spin up game state
