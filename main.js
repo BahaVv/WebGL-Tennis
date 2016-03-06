@@ -87,7 +87,7 @@ function initGL(){
   if ( !gl ) { alert( "WebGL isn't available" ); }
 
   gl.viewport( 0, 0, 1024, 768); // Viewport size 800x800
-  gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // Background color is black!
+  gl.clearColor( 0.0, 0.0, 0.0, 0.0 ); // Background color is utterly transparent
 
   initObjects(); // Spin up game state
 
