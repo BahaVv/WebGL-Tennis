@@ -21,9 +21,9 @@ function initObjects() {
     x: -0.925,
     y: 0,
     width: 0.05,
-	halfwidth: 0.025,
+	  halfwidth: 0.025,
     height: 0.34,
-	halfheight: 0.17,
+	  halfheight: 0.17,
     speed: 0,
     vertices: [
       vec2(-0.95, 0.17),
@@ -38,9 +38,9 @@ function initObjects() {
     x: 0.925,
     y: 0,
     width: 0.05,
-	halfwidth: 0.025,
+	  halfwidth: 0.025,
     height: 0.34,
-	halfheight: 0.17,
+	  halfheight: 0.17,
     speed: 0,
     vertices: [
       vec2(0.9, 0.17),
@@ -55,9 +55,9 @@ function initObjects() {
     x: 0,
     y: 0,
     width: 0.04,
-	halfwidth: 0.02,
+	  halfwidth: 0.02,
     height: 0.06,
-	halfheight: 0.03,
+	  halfheight: 0.03,
     speed: 0,
     color: vec4(1.0,1.0,1.0,1.0),
     vertices: [
@@ -71,7 +71,7 @@ function initObjects() {
   // Play field
   field = {
     score1: 0, // P1 score
-	score2: 0, // P2 score
+	   score2: 0, // P2 score
   };
 }
 
@@ -82,7 +82,7 @@ function initGL(){
   gl = WebGLUtils.setupWebGL( canvas );
   if ( !gl ) { alert( "WebGL isn't available" ); }
 
-  gl.viewport( 0, 0, 1024, 768); // Viewport size 800x800
+  gl.viewport( 0, 0, 1024, 768); // Viewport size 1024x768
   gl.clearColor( 0.0, 0.0, 0.0, 0.0 ); // Background color is utterly transparent
 
   initObjects(); // Spin up game state
@@ -167,13 +167,13 @@ function ballCollisionUpdate() {
     if(ball.x > 1) {
       updateScore(1);
       resetBall(1);
-	  return;
+	    return;
     }
 
     if(ball.x < -1) {
       updateScore(2);
       resetBall(2);
-	  return;
+	    return;
     }
   }
 
@@ -184,13 +184,13 @@ function ballCollisionUpdate() {
 	if(ball.x > 1) {
       updateScore(1);
       resetBall(1);
-	  return;
+	    return;
     }
 
     if(ball.x < -1) {
       updateScore(2);
       resetBall(2);
-	  return;
+	    return;
     }
   }
 
@@ -207,24 +207,29 @@ function ballCollisionUpdate() {
 /* paddleCollisionUpdate(): Initial function for paddle collision checks */
 function paddleCollisionUpdate() {
 	// Check to see if paddle is touching either wall
+
 	if (leftpaddle.y + leftpaddle.halfheight > 0.987) {
 		// Update left paddle position by bumping it down
 		// NOTE: could make some kind of acceleration function
 		// that overrides player input to make this smooth
 		// Could use a 'frame counter' to do this that would assist
 		// with other timing events, too.
+    transY1 = 0.8;
 	}
 
 	if (leftpaddle.y - leftpaddle.halfheight < -0.987) {
 		// Update left paddle position by bumping it up
+    transY1 = -0.8;
 	}
 
 	if (rightpaddle.y + rightpaddle.halfheight > 0.987) {
-		// Update right paddle position by bumping it down
+    // Update right paddle position by bumping it down
+    transY2 = 0.8;
 	}
 
 	if (rightpaddle.y - rightpaddle.halfheight < -0.987) {
 		// Update right paddle position by bumping it up
+    transY2 = -0.8;
 	}
 }
 
@@ -254,22 +259,27 @@ function updateScore(playerNum) {
 
 /* keyUpdate(): Checks for current key presses, and updates the player position accordingly */
 function keyUpdate() {
+
   if(keys[87]) { // W -- Move P1 paddle up
     if(leftpaddle.speed < 0.5) leftpaddle.speed += 0.02;
      transY1 += 0.05 * leftpaddle.speed;
+     leftpaddle.y = transY1;
   }
   if(keys[83]) {  // S -- Move P1 paddle down
     if(leftpaddle.speed < 0.5) leftpaddle.speed += 0.02;
     transY1 -= 0.05 * leftpaddle.speed;
+    leftpaddle.y = transY1;
   }
 
   if(keys[38]) { // Up cursor key -- move P2 paddle up
     if(rightpaddle.speed < 0.5) rightpaddle.speed += 0.02;
     transY2 += 0.05 * rightpaddle.speed;
+    rightpaddle.y = transY2
   }
   if(keys[40]) { // Down cursor key -- move P2 paddle down
     if(rightpaddle.speed < 0.5) rightpaddle.speed += 0.02;
     transY2 -= 0.05 * rightpaddle.speed;
+    rightpaddle.y = transY2;
   }
 }
 
