@@ -20,13 +20,15 @@ function initObjects() {
     x: -0.875,
     y: 0,
     width: 0.05,
-    height: 0.4,
+	halfwidth: 0.025,
+    height: 0.34,
+	halfheight: 0.17,
     speed: 0,
     vertices: [
-      vec2(-0.95, 0.20),
-      vec2(-0.9, 0.20),
-      vec2(-0.9, -0.20),
-      vec2(-0.95, -0.20)
+      vec2(-0.95, 0.17),
+      vec2(-0.9, 0.17),
+      vec2(-0.9, -0.17),
+      vec2(-0.95, -0.17)
     ]
   };
 
@@ -35,13 +37,15 @@ function initObjects() {
     x: 0,
     y: 0,
     width: 0.05,
-    height: 0.4,
+	halfwidth: 0.025,
+    height: 0.34,
+	halfheight: 0.17,
     speed: 0,
     vertices: [
-      vec2(0.9, 0.20),
-      vec2(0.95, 0.20),
-      vec2(0.95, -0.20),
-      vec2(0.9, -0.20)
+      vec2(0.9, 0.17),
+      vec2(0.95, 0.17),
+      vec2(0.95, -0.17),
+      vec2(0.9, -0.17)
     ]
   };
 
@@ -50,7 +54,9 @@ function initObjects() {
     x: 0,
     y: 0,
     width: 0.04,
+	halfwidth: 0.02,
     height: 0.06,
+	halfheight: 0.03,
     speed: 0,
     vertices: [
       vec2(-0.02, 0.03),
@@ -120,6 +126,7 @@ function render() {
 
   keyUpdate(); // Check player key presses once per frame (60hz)
   ballCollisionUpdate(); // Check ball collision
+  paddleCollisionUpdate(); // Check paddle collision
 
   requestAnimFrame(render); // Inform the browser we're ready to render another frame
 }
@@ -153,7 +160,7 @@ function renderBall() {
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
   ball.x += transXBall;
-  // ball.y = ball.y + transYBall;
+  ball.y += transYBall;
 }
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
@@ -172,6 +179,11 @@ function ballCollisionUpdate() {
     updateScore(2);
     resetBall(2);
   }
+}
+
+/* paddleCollisionUpdate(): Initial function for paddle collision checks */
+function paddleCollisionUpdate() {
+	
 }
 
 /* resetBall(playerNum): resets the ball to be in the center of the screen and facing the
