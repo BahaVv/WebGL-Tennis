@@ -32,4 +32,10 @@ h1 {
 
 .control {
 	font-size: 12px;
+	text-align: center;
+}
+
+.credits {
+	font-size: 10px;
+	text-align:center
 }

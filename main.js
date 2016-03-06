@@ -151,6 +151,9 @@ function renderBall() {
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
 function ballCollisionUpdate() {
+  // Check to see if ball is close enough to sides to care about paddles/score zone
+  
+  // Check to see if ball is touching wall
   if(ball.y > 1) {
     yDir = -1;
   }
@@ -169,6 +172,7 @@ function ballCollisionUpdate() {
 
 /* paddleCollisionUpdate(): Initial function for paddle collision checks */
 function paddleCollisionUpdate() {
+	// Check to see if paddle is touching either wall
 
 }
 
