@@ -10,7 +10,7 @@ body {
   height: 100vh;
   max-width: 1400px;
   margin: 0 auto;
-  color: #808080;
+  color: #909090;
   background-color: #002b36;
   font-family: "Open Sans";
   font-size: 15px;
@@ -22,6 +22,14 @@ canvas {
   box-shadow: 4px 4px 4px #202020;
 }
 
-h1, p{
+.score {
+	font-size: 25px;
+}
+
+h1 {
   text-align: center;
+}
+
+.control {
+	font-size: 12px;
 }
