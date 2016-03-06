@@ -183,7 +183,7 @@ function ballCollisionUpdate() {
 
 /* paddleCollisionUpdate(): Initial function for paddle collision checks */
 function paddleCollisionUpdate() {
-	
+
 }
 
 /* resetBall(playerNum): resets the ball to be in the center of the screen and facing the
@@ -212,11 +212,23 @@ function updateScore(playerNum) {
 
 /* keyUpdate(): Checks for current key presses, and updates the player position accordingly */
 function keyUpdate() {
-  if(keys[87]) transY1 += 0.05; // W -- Move P1 paddle up
-  if(keys[83]) transY1 -= 0.05; // S -- Move P1 paddle down
+  if(keys[87]) { // W -- Move P1 paddle up
+    if(leftpaddle.speed < 0.5) leftpaddle.speed += 0.02;
+     transY1 += 0.05 * leftpaddle.speed;
+  }
+  if(keys[83]) {  // S -- Move P1 paddle down
+    if(leftpaddle.speed < 0.5) leftpaddle.speed += 0.02;
+    transY1 -= 0.05 * leftpaddle.speed;
+  }
 
-  if(keys[38]) transY2 += 0.05; // Up cursor key -- move P2 paddle up
-  if(keys[40]) transY2 -= 0.05; // Down cursor key -- move P2 paddle down
+  if(keys[38]) { // Up cursor key -- move P2 paddle up
+    if(rightpaddle.speed < 0.5) rightpaddle.speed += 0.02;
+    transY2 += 0.05 * rightpaddle.speed;
+  }
+  if(keys[40]) { // Down cursor key -- move P2 paddle down
+    if(rightpaddle.speed < 0.5) rightpaddle.speed += 0.02;
+    transY2 -= 0.05 * rightpaddle.speed;
+  }
 }
 
 /* keyDown(): Fires when key is pressed down, sets that key to pressed in the global keys variable */
@@ -228,5 +240,7 @@ function keyDown(event) {
 
 /* keyUp(): Fires when key is released, sets that key to un-pressed in the global keys variable */
 function keyUp(event) {
+  leftpaddle.speed = 0;
+  rightpaddle.speed = 0;
   keys[event.keyCode] = false;
 }
