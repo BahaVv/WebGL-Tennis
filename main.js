@@ -8,6 +8,7 @@ var transYBall = 0.0; // Variable containing vertical translation for ball
 var yDir = 1; // The direction of the ball in the y-axis
 
 var transLoc; // trans Uniform location from shader
+var fragColorLoc; // frag_color Uniform location from shader
 
 var keys = {}; // Variable used to store currently pressed keys
 
@@ -58,6 +59,7 @@ function initObjects() {
     height: 0.06,
 	halfheight: 0.03,
     speed: 0,
+    color: vec4(1.0,1.0,1.0,1.0),
     vertices: [
       vec2(-0.02, 0.03),
       vec2(0.02, 0.03),
@@ -101,6 +103,7 @@ function initGL(){
   gl.enableVertexAttribArray(vertexPositionLoc); // Bind it as currently used attrib array
 
   transLoc = gl.getUniformLocation(program, "trans"); // Populate global variable w/ trans location
+  fragColorLoc = gl.getUniformLocation(program, "fragColor"); // Populate global variable w/ frag_color location
 
   render();
 }
@@ -111,10 +114,9 @@ function render() {
   gl.clear(gl.COLOR_BUFFER_BIT); // Clear the buffer
 
   renderLeftPaddle();
-  renderBall();
   renderRightPaddle();
+  renderBall();
 
-  var fragColorLoc = gl.getUniformLocation(program, "fragColor"); // TODO: This should be moved out
   gl.uniform4f(fragColorLoc, 1.0, 1.0, 1.0, 1.0); // Set pixel color uniform to white
 
   keyUpdate(); // Check player key presses once per frame (60hz)
@@ -143,6 +145,7 @@ transXBall = 0.01;
 /* renderBall(): I mean...yeah. Renders the ball. */
 function renderBall() {
   gl.bufferData(gl.ARRAY_BUFFER, flatten(ball.vertices), gl.STATIC_DRAW);
+  gl.uniform4f(fragColorLoc, ball.color[0], ball.color[1], ball.color[2], ball.color[3]);
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
   ball.x += transXBall;
@@ -151,46 +154,46 @@ function renderBall() {
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
 function ballCollisionUpdate() {
-	
+
   // Check to see if ball is close enough to sides to care about paddles/score zone
   if (ball.x > 0.93) {
 	  // Figure out if we're too far to collide, or if we're scoring
-	  
+
 	  // NOTE: Paddle should not collide if ball midpoint is past paddle midpoint
 	  // Also note, we're going to need some way to prevent multiple collisions on
 	  // sequential frames, while the ball is moving away
-	
-    // Scoring always takes precedence	
+
+    // Scoring always takes precedence
     if(ball.x > 1) {
       updateScore(1);
       resetBall(1);
 	  return;
     }
-  
+
     if(ball.x < -1) {
       updateScore(2);
       resetBall(2);
 	  return;
     }
   }
-  
+
   if (ball.x < -0.93) {
 	 // Figure out if we're too far to collide, or if we're scoring
-	 
+
 	 // Scoring always takes precedence
 	if(ball.x > 1) {
       updateScore(1);
       resetBall(1);
 	  return;
     }
-  
+
     if(ball.x < -1) {
       updateScore(2);
       resetBall(2);
 	  return;
     }
   }
-  
+
   // Check to see if ball is touching wall
   // TODO: Ricochet physics
   if(ball.y > 1) {
@@ -211,15 +214,15 @@ function paddleCollisionUpdate() {
 		// Could use a 'frame counter' to do this that would assist
 		// with other timing events, too.
 	}
-	
+
 	if (leftpaddle.y - leftpaddle.halfheight < -0.987) {
 		// Update left paddle position by bumping it up
 	}
-	
+
 	if (rightpaddle.y + rightpaddle.halfheight > 0.987) {
 		// Update right paddle position by bumping it down
 	}
-	
+
 	if (rightpaddle.y - rightpaddle.halfheight < -0.987) {
 		// Update right paddle position by bumping it up
 	}
@@ -235,7 +238,7 @@ function resetBall(playerNum) {
 
 /* changeColor(): update the ball with a random color after a paddle collision */
 function changeColor() {
-  ball.color = vec4()
+  ball.color = vec4(Math.random().toFixed(2),Math.random().toFixed(2),Math.random().toFixed(2),1.0);
 }
 
 /* updateScore(playerNum): updates the score of player #playerNum */
