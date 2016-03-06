@@ -17,7 +17,7 @@ var leftpaddle, rightpaddle, ball, field; // Game objects
 function initObjects() {
   // P1
   leftpaddle = {
-    x: -0.875,
+    x: -0.925,
     y: 0,
     width: 0.05,
 	halfwidth: 0.025,
@@ -34,7 +34,7 @@ function initObjects() {
 
   // P2
   rightpaddle = {
-    x: 0,
+    x: 0.925,
     y: 0,
     width: 0.05,
 	halfwidth: 0.025,
@@ -151,29 +151,78 @@ function renderBall() {
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
 function ballCollisionUpdate() {
+	
   // Check to see if ball is close enough to sides to care about paddles/score zone
+  if (ball.x > 0.93) {
+	  // Figure out if we're too far to collide, or if we're scoring
+	  
+	  // NOTE: Paddle should not collide if ball midpoint is past paddle midpoint
+	  // Also note, we're going to need some way to prevent multiple collisions on
+	  // sequential frames, while the ball is moving away
+	
+    // Scoring always takes precedence	
+    if(ball.x > 1) {
+      updateScore(1);
+      resetBall(1);
+	  return;
+    }
+  
+    if(ball.x < -1) {
+      updateScore(2);
+      resetBall(2);
+	  return;
+    }
+  }
+  
+  if (ball.x < -0.93) {
+	 // Figure out if we're too far to collide, or if we're scoring
+	 
+	 // Scoring always takes precedence
+	if(ball.x > 1) {
+      updateScore(1);
+      resetBall(1);
+	  return;
+    }
+  
+    if(ball.x < -1) {
+      updateScore(2);
+      resetBall(2);
+	  return;
+    }
+  }
   
   // Check to see if ball is touching wall
+  // TODO: Ricochet physics
   if(ball.y > 1) {
     yDir = -1;
   }
   if(ball.y < -1) {
     yDir = 1;
   }
-  if(ball.x > 1) {
-    updateScore(1);
-    resetBall(1);
-  }
-  if(ball.x < -1) {
-    updateScore(2);
-    resetBall(2);
-  }
 }
 
 /* paddleCollisionUpdate(): Initial function for paddle collision checks */
 function paddleCollisionUpdate() {
 	// Check to see if paddle is touching either wall
-
+	if (leftpaddle.y + leftpaddle.halfheight > 0.987) {
+		// Update left paddle position by bumping it down
+		// NOTE: could make some kind of acceleration function
+		// that overrides player input to make this smooth
+		// Could use a 'frame counter' to do this that would assist
+		// with other timing events, too.
+	}
+	
+	if (leftpaddle.y - leftpaddle.halfheight < -0.987) {
+		// Update left paddle position by bumping it up
+	}
+	
+	if (rightpaddle.y + rightpaddle.halfheight > 0.987) {
+		// Update right paddle position by bumping it down
+	}
+	
+	if (rightpaddle.y - rightpaddle.halfheight < -0.987) {
+		// Update right paddle position by bumping it up
+	}
 }
 
 /* resetBall(playerNum): resets the ball to be in the center of the screen and facing the
