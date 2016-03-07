@@ -214,22 +214,26 @@ function paddleCollisionUpdate() {
 		// that overrides player input to make this smooth
 		// Could use a 'frame counter' to do this that would assist
 		// with other timing events, too.
-    transY1 = 0.8;
+    transY1 = 1 - leftpaddle.halfheight;
+    leftpaddle.y = transY1;
 	}
 
 	if (leftpaddle.y - leftpaddle.halfheight < -0.987) {
 		// Update left paddle position by bumping it up
-    transY1 = -0.8;
+    transY1 = -1 + leftpaddle.halfheight;
+    leftpaddle.y = transY1;
 	}
 
 	if (rightpaddle.y + rightpaddle.halfheight > 0.987) {
     // Update right paddle position by bumping it down
-    transY2 = 0.8;
+    transY2 = 1 - rightpaddle.halfheight;
+    rightpaddle.y = transY2;
 	}
 
 	if (rightpaddle.y - rightpaddle.halfheight < -0.987) {
 		// Update right paddle position by bumping it up
-    transY2 = -0.8;
+    transY2 = -1 + rightpaddle.halfheight;
+    rightpaddle.y = transY2;
 	}
 }
 
