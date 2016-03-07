@@ -149,7 +149,7 @@ function renderBall() {
   gl.uniform4f(fragColorLoc, ball.color[0], ball.color[1], ball.color[2], ball.color[3]);
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
-  ball.x += transXBall;
+  ball.x += transXBall * xDir;
   ball.y += transYBall;
 }
 
@@ -176,12 +176,12 @@ function ballCollisionUpdate() {
       resetBall(2);
 	    return;
     }
-	
+
 	// We're not scoring, let's see if we're colliding w/ paddle
-	
+
 	xDir = -1;
 	return;
-	
+
   }
 
   if (ball.x < -0.93) {
@@ -199,12 +199,12 @@ function ballCollisionUpdate() {
       resetBall(2);
 	    return;
     }
-	
+
 	// We're not scoring, let's see if we're colliding w/ paddle
-	
+
 	xDir = 1;
 	return;
-	
+
   }
 
   // Check to see if ball is touching wall
