@@ -1,3 +1,4 @@
+/** GLOBALS **/
 var gl; // Application WebGL instance
 var program; // Shader program (should contain vertex & fragment shaders)
 
@@ -7,6 +8,7 @@ var transXBall = 0.01; // Variable containing horizontal translation for ball
 var transYBall = 0.0; // Variable containing vertical translation for ball
 
 var yDir = 1; // The direction of the ball in the y-axis
+var xDir = -1; // The direction of the ball in the x-axis
 
 var transLoc; // trans Uniform location from shader
 var fragColorLoc; // frag_color Uniform location from shader
@@ -174,6 +176,12 @@ function ballCollisionUpdate() {
       resetBall(2);
 	    return;
     }
+	
+	// We're not scoring, let's see if we're colliding w/ paddle
+	
+	xDir = -1;
+	return;
+	
   }
 
   if (ball.x < -0.93) {
@@ -191,15 +199,23 @@ function ballCollisionUpdate() {
       resetBall(2);
 	    return;
     }
+	
+	// We're not scoring, let's see if we're colliding w/ paddle
+	
+	xDir = 1;
+	return;
+	
   }
 
   // Check to see if ball is touching wall
   // TODO: Ricochet physics
   if(ball.y > 1) {
     yDir = -1;
+	return;
   }
   if(ball.y < -1) {
     yDir = 1;
+	return;
   }
 }
 
