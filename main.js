@@ -157,7 +157,7 @@ function renderBall() {
 function ballCollisionUpdate() {
 
   // Check to see if ball is close enough to sides to care about paddles/score zone
-  
+
   if (ball.x > 0.9) {
 	  // Figure out if we're too far to collide, or if we're scoring
 
@@ -173,10 +173,10 @@ function ballCollisionUpdate() {
 	}
 
 	// We're not scoring, so let's see if we're colliding w/ paddle
-	
+
 	if (ball.x + ball.halfwidth > rightpaddle.x) {
 		// Collision is possible! Let's check Y.
-		if ((ball.y + ball.halfheight > (rightpaddle.y - rightpaddle.halfheight)) 
+		if ((ball.y + ball.halfheight > (rightpaddle.y - rightpaddle.halfheight))
 			 && (ball.y - ball.halfheight < (rightpaddle.y + rightpaddle.halfheight))) {
 			//Collision!
 			xDir = -1;
@@ -203,7 +203,7 @@ function ballCollisionUpdate() {
 	// We're not scoring, so let's see if we're colliding w/ paddle
 	if (ball.x - ball.halfwidth < leftpaddle.x) {
 		// Collision is possible! Let's check Y.
-		if ((ball.y + ball.halfheight > (leftpaddle.y - leftpaddle.halfheight)) 
+		if ((ball.y + ball.halfheight > (leftpaddle.y - leftpaddle.halfheight))
 			 && (ball.y - ball.halfheight < (leftpaddle.y + leftpaddle.halfheight))) {
 			//Collision!
 			xDir = 1;
@@ -219,11 +219,11 @@ function ballCollisionUpdate() {
 
   // Check to see if ball is touching wall
   // TODO: Ricochet physics
-  if(ball.y > 1) {
+  if(ball.y > 1 - ball.halfheight) {
     yDir = -1;
 	return;
   }
-  if(ball.y < -1) {
+  if(ball.y < -1 + ball.halfheight) {
     yDir = 1;
 	return;
   }
