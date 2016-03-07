@@ -24,9 +24,9 @@ function initObjects() {
     x: -0.925,
     y: 0,
     width: 0.05,
-	  halfwidth: 0.025,
+	halfwidth: 0.025,
     height: 0.34,
-	  halfheight: 0.17,
+	halfheight: 0.17,
     speed: 0,
     vertices: [
       vec2(-0.95, 0.17),
@@ -41,9 +41,9 @@ function initObjects() {
     x: 0.925,
     y: 0,
     width: 0.05,
-	  halfwidth: 0.025,
+	halfwidth: 0.025,
     height: 0.34,
-	  halfheight: 0.17,
+	halfheight: 0.17,
     speed: 0,
     vertices: [
       vec2(0.9, 0.17),
@@ -61,7 +61,7 @@ function initObjects() {
 	  halfwidth: 0.02,
     height: 0.06,
 	  halfheight: 0.03,
-    speed: 0,
+    speed: 1,
     color: vec4(1.0,1.0,1.0,1.0),
     vertices: [
       vec2(-0.02, 0.03),
@@ -149,15 +149,16 @@ function renderBall() {
   gl.uniform4f(fragColorLoc, ball.color[0], ball.color[1], ball.color[2], ball.color[3]);
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
-  ball.x += transXBall * xDir;
-  ball.y += transYBall;
+  ball.x += (transXBall * xDir) * ball.speed;
+  ball.y += (transYBall * yDir) * ball.speed;
 }
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
 function ballCollisionUpdate() {
 
   // Check to see if ball is close enough to sides to care about paddles/score zone
-  if (ball.x > 0.93) {
+  
+  if (ball.x > 0.9) {
 	  // Figure out if we're too far to collide, or if we're scoring
 
 	  // NOTE: Paddle should not collide if ball midpoint is past paddle midpoint
@@ -169,42 +170,51 @@ function ballCollisionUpdate() {
       updateScore(1);
       resetBall(1);
 	    return;
-    }
+	}
 
-    if(ball.x < -1) {
-      updateScore(2);
-      resetBall(2);
-	    return;
-    }
-
-	// We're not scoring, let's see if we're colliding w/ paddle
-
-	xDir = -1;
-	return;
+	// We're not scoring, so let's see if we're colliding w/ paddle
+	
+	if (ball.x + ball.halfwidth > rightpaddle.x) {
+		// Collision is possible! Let's check Y.
+		if ((ball.y + ball.halfheight > (rightpaddle.y - rightpaddle.halfheight)) 
+			 && (ball.y - ball.halfheight < (rightpaddle.y + rightpaddle.halfheight))) {
+			//Collision!
+			xDir = -1;
+			changeColor();
+			if (ball.speed < 4.2){
+			  ball.speed += .8 * rightpaddle.speed;
+			}
+			return;
+		}
+	}
 
   }
 
-  if (ball.x < -0.93) {
+  if (ball.x < -0.9) {
 	 // Figure out if we're too far to collide, or if we're scoring
 
 	 // Scoring always takes precedence
-	if(ball.x > 1) {
-      updateScore(1);
-      resetBall(1);
-	    return;
-    }
-
     if(ball.x < -1) {
       updateScore(2);
       resetBall(2);
 	    return;
     }
 
-	// We're not scoring, let's see if we're colliding w/ paddle
-
-	xDir = 1;
-	return;
-
+	// We're not scoring, so let's see if we're colliding w/ paddle
+	if (ball.x - ball.halfwidth < leftpaddle.x) {
+		// Collision is possible! Let's check Y.
+		if ((ball.y + ball.halfheight > (leftpaddle.y - leftpaddle.halfheight)) 
+			 && (ball.y - ball.halfheight < (leftpaddle.y + leftpaddle.halfheight))) {
+			//Collision!
+			xDir = 1;
+			changeColor();
+			console.log(ball.speed);
+			if (ball.speed < 4.2){
+			  ball.speed += .8 * rightpaddle.speed;
+			}
+			return;
+		}
+    }
   }
 
   // Check to see if ball is touching wall
@@ -259,6 +269,8 @@ function paddleCollisionUpdate() {
 function resetBall(playerNum) {
   ball.x = 0;
   ball.y = 0;
+  ball.speed = 1;
+  ball.color = vec4(1.0, 1.0, 1.0, 1.0);
   transXBall = 0.01 * ((playerNum % 2) ? -1 : 1);
 }
 
