@@ -37,5 +37,10 @@ h1 {
 
 .credits {
 	font-size: 10px;
-	text-align:center
+	text-align:center;
+}
+
+.title {
+	font-size: 40px;
+	text-align:center;
 }
