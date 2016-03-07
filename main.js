@@ -3,6 +3,7 @@ var program; // Shader program (should contain vertex & fragment shaders)
 
 var transY1 = 0.0; // Variable containing vertical translation for first paddle
 var transY2 = 0.0; // Variable containing vertical translation for second paddle
+var transXBall = 0.01; // Variable containing horizontal translation for ball
 var transYBall = 0.0; // Variable containing vertical translation for ball
 
 var yDir = 1; // The direction of the ball in the y-axis
@@ -139,8 +140,6 @@ function renderRightPaddle() {
   gl.uniform2f(transLoc, 0, transY2);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, rightpaddle.vertices.length);
 }
-
-transXBall = 0.01;
 
 /* renderBall(): I mean...yeah. Renders the ball. */
 function renderBall() {
