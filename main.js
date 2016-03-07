@@ -208,31 +208,33 @@ function ballCollisionUpdate() {
 function paddleCollisionUpdate() {
 	// Check to see if paddle is touching either wall
 
-	if (leftpaddle.y + leftpaddle.halfheight > 0.987) {
+	// Checking @ 0.967 because wall graphic extends to .977, and we want to
+	// stop just a hair before the wall
+	if (leftpaddle.y + leftpaddle.halfheight > 0.967) {
 		// Update left paddle position by bumping it down
 		// NOTE: could make some kind of acceleration function
 		// that overrides player input to make this smooth
 		// Could use a 'frame counter' to do this that would assist
 		// with other timing events, too.
-    transY1 = 1 - leftpaddle.halfheight;
+    transY1 = 0.967 - leftpaddle.halfheight;
     leftpaddle.y = transY1;
 	}
 
-	if (leftpaddle.y - leftpaddle.halfheight < -0.987) {
+	if (leftpaddle.y - leftpaddle.halfheight < -0.967) {
 		// Update left paddle position by bumping it up
-    transY1 = -1 + leftpaddle.halfheight;
+    transY1 = -0.967 + leftpaddle.halfheight;
     leftpaddle.y = transY1;
 	}
 
-	if (rightpaddle.y + rightpaddle.halfheight > 0.987) {
+	if (rightpaddle.y + rightpaddle.halfheight > 0.967) {
     // Update right paddle position by bumping it down
-    transY2 = 1 - rightpaddle.halfheight;
+    transY2 = 0.967 - rightpaddle.halfheight;
     rightpaddle.y = transY2;
 	}
 
-	if (rightpaddle.y - rightpaddle.halfheight < -0.987) {
+	if (rightpaddle.y - rightpaddle.halfheight < -0.967) {
 		// Update right paddle position by bumping it up
-    transY2 = -1 + rightpaddle.halfheight;
+    transY2 = -0.967 + rightpaddle.halfheight;
     rightpaddle.y = transY2;
 	}
 }
