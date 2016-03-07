@@ -10,6 +10,8 @@ var transYBall = 0.0; // Variable containing vertical translation for ball
 var yDir = 1; // The direction of the ball in the y-axis
 var xDir = -1; // The direction of the ball in the x-axis
 
+var theta = 0; // The angle used for ricocheting the ball
+
 var transLoc; // trans Uniform location from shader
 var fragColorLoc; // frag_color Uniform location from shader
 
@@ -150,7 +152,7 @@ function renderBall() {
   gl.uniform2f(transLoc, ball.x, ball.y);
   gl.drawArrays(gl.TRIANGLE_FAN, 0, ball.vertices.length);
   ball.x += (transXBall * xDir) * ball.speed;
-  ball.y += (transYBall * yDir) * ball.speed;
+  ball.y += transYBall * yDir + ball.speed * 0.01 * Math.sin(theta);
 }
 
 /* ballCollisionUpdate(): Initial function for ball collision checks */
@@ -180,6 +182,7 @@ function ballCollisionUpdate() {
 			 && (ball.y - ball.halfheight < (rightpaddle.y + rightpaddle.halfheight))) {
 			//Collision!
 			xDir = -1;
+      theta = ((ball.y - rightpaddle.y) /rightpaddle.halfheight) * Math.PI;
 			changeColor();
 			if (ball.speed < 4.2){
 			  ball.speed += .8 * rightpaddle.speed;
@@ -207,8 +210,8 @@ function ballCollisionUpdate() {
 			 && (ball.y - ball.halfheight < (leftpaddle.y + leftpaddle.halfheight))) {
 			//Collision!
 			xDir = 1;
+      theta = ((ball.y - leftpaddle.y) / leftpaddle.halfheight) * Math.PI;
 			changeColor();
-			console.log(ball.speed);
 			if (ball.speed < 4.2){
 			  ball.speed += .8 * rightpaddle.speed;
 			}
@@ -220,11 +223,11 @@ function ballCollisionUpdate() {
   // Check to see if ball is touching wall
   // TODO: Ricochet physics
   if(ball.y > 1 - ball.halfheight) {
-    yDir = -1;
+    theta *= -1;
 	return;
   }
   if(ball.y < -1 + ball.halfheight) {
-    yDir = 1;
+    theta *= -1;
 	return;
   }
 }
@@ -270,6 +273,7 @@ function resetBall(playerNum) {
   ball.x = 0;
   ball.y = 0;
   ball.speed = 1;
+  theta = 0;
   ball.color = vec4(1.0, 1.0, 1.0, 1.0);
   transXBall = 0.01 * ((playerNum % 2) ? -1 : 1);
 }
