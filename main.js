@@ -1,3 +1,8 @@
+/*
+* JS source for Project 1 - WebGL-Tennis
+* By: Adam Kimball & Benjamin Lannon
+*/
+
 /** GLOBALS **/
 var gl; // Application WebGL instance
 var program; // Shader program (should contain vertex & fragment shaders)
@@ -226,7 +231,6 @@ function ballCollisionUpdate() {
   }
 
   // Check to see if ball is touching wall
-  // TODO: Ricochet physics
   if(ball.y > 1 - ball.halfheight) {
     theta *= -1;
 	return;
@@ -245,10 +249,6 @@ function paddleCollisionUpdate() {
 	// stop just a hair before the wall
 	if (leftpaddle.y + leftpaddle.halfheight > 0.967) {
 		// Update left paddle position by bumping it down
-		// NOTE: could make some kind of acceleration function
-		// that overrides player input to make this smooth
-		// Could use a 'frame counter' to do this that would assist
-		// with other timing events, too.
     transY1 = 0.967 - leftpaddle.halfheight;
     leftpaddle.y = transY1;
 	}
@@ -278,8 +278,8 @@ function resetBall(playerNum) {
   ball.x = 0;
   ball.y = 0;
   ball.speed = 1;
-  theta = 0;
   ball.color = vec4(1.0, 1.0, 1.0, 1.0);
+  theta = 0;
   transXBall = 0.01 * ((playerNum % 2) ? -1 : 1);
 }
 
@@ -338,7 +338,6 @@ function keyUpdate() {
 }
 
 /* keyDown(): Fires when key is pressed down, sets that key to pressed in the global keys variable */
-// TODO: Less memory intensive way of doing this?
 function keyDown(event) {
   event.preventDefault();
   keys[event.keyCode] = true;
