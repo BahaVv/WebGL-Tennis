@@ -79,6 +79,8 @@ function initObjects() {
 	score2: 0, // P2 score
 	playing: true
   };
+
+  transXBall = 0.01 * (Math.floor(2 * Math.random()) ? 1 : -1); // Randomize the direction the ball starts travelling
 }
 
 /* initGL(): Spin up initial WebGL program state */
@@ -110,7 +112,7 @@ function initGL(){
 
   transLoc = gl.getUniformLocation(program, "trans"); // Populate global variable w/ trans location
   fragColorLoc = gl.getUniformLocation(program, "fragColor"); // Populate global variable w/ frag_color location
-  
+
   render();
 }
 
@@ -118,19 +120,19 @@ function initGL(){
    collision detection/score update functions when necessary. */
 function render() {
   gl.clear(gl.COLOR_BUFFER_BIT); // Clear the buffer
-  
+
   if (field.playing){ // If game is ongoing...
 	renderLeftPaddle();
     renderRightPaddle();
     renderBall();
-  
+
     gl.uniform4f(fragColorLoc, 1.0, 1.0, 1.0, 1.0); // Ensure paddles get rendered as white, regardlesss of ball
 
     keyUpdate(); // Check player key presses once per frame (60hz)
     ballCollisionUpdate(); // Check ball collision
     paddleCollisionUpdate(); // Check paddle collision
   }
-  
+
   requestAnimFrame(render); // Inform the browser we're ready to render another frame
 }
 
@@ -295,13 +297,13 @@ function updateScore(playerNum) {
     field.score2 += 1;
     document.getElementById('score2').innerHTML = field.score2;
   }
-  
+
   if (field.score1 == 10) { // Player 1 has won!
 	  field.playing = false; // End game
 	  var canvas = document.getElementById("canvas");
 	  canvas.style.background = "url(p1win.png)";
   }
-  
+
   else if (field.score2 == 10) { // Player 2 has won!
 	  field.playing = false; // End game
 	  var canvas = document.getElementById("canvas");
