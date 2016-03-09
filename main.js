@@ -87,6 +87,8 @@ function initObjects() {
 
 	transXBall = 0.01;
 	xDir = (Math.floor(2 * Math.random()) ? 1 : -1); // Randomize the direction the ball starts travelling
+	
+	document.getElementById( "music" ).play();
 }
 
 /* initGL(): Spin up initial WebGL program state */
@@ -300,16 +302,20 @@ function updateScore(playerNum) {
 		document.getElementById('score2').innerHTML = field.score2;
 	}
 
-	if (field.score1 == 10) { // Player 1 has won!
+	if (field.score1 == 1) { // Player 1 has won!
 		field.playing = false; // End game
 		var canvas = document.getElementById("canvas");
 		canvas.style.background = "url(p1win.png)";
+		document.getElementById( "music" ).pause();
+		new Audio("Victory!.ogg").play();
 	}
 
-	else if (field.score2 == 10) { // Player 2 has won!
+	else if (field.score2 == 1) { // Player 2 has won!
 		field.playing = false; // End game
 		var canvas = document.getElementById("canvas");
 		canvas.style.background = "url(p2win.png)";
+		document.getElementById( "music" ).pause();
+		new Audio("Victory!.ogg").play();
 	}
 }
 
@@ -321,10 +327,13 @@ function keyUpdate() {
 		transY1 += 0.05 * leftpaddle.speed;
 		leftpaddle.y = transY1;
 	}
-	if(keys[83]) {  // S -- Move P1 paddle down
+	else if(keys[83]) {  // S -- Move P1 paddle down
 		if(leftpaddle.speed < 0.5) leftpaddle.speed += 0.02;
 		transY1 -= 0.05 * leftpaddle.speed;
 		leftpaddle.y = transY1;
+	}
+	else {
+		leftpaddle.speed = 0; // TODO: graceful slowdown
 	}
 
 	if(keys[38]) { // Up cursor key -- move P2 paddle up
@@ -332,22 +341,24 @@ function keyUpdate() {
 		transY2 += 0.05 * rightpaddle.speed;
 		rightpaddle.y = transY2
 	}
-	if(keys[40]) { // Down cursor key -- move P2 paddle down
+	else if(keys[40]) { // Down cursor key -- move P2 paddle down
 		if(rightpaddle.speed < 0.5) rightpaddle.speed += 0.02;
 		transY2 -= 0.05 * rightpaddle.speed;
 		rightpaddle.y = transY2;
+	} else {
+		rightpaddle.speed = 0; // TODO: graceful slowdown
 	}
 }
 
 /* keyDown(): Fires when key is pressed down, sets that key to pressed in the global keys variable */
 function keyDown(event) {
+	// TODO: Let F keys through!
 	event.preventDefault();
 	keys[event.keyCode] = true;
 }
 
 /* keyUp(): Fires when key is released, sets that key to un-pressed in the global keys variable */
 function keyUp(event) {
-	leftpaddle.speed = 0;
-	rightpaddle.speed = 0;
+	// TODO: detect key, prevent maintainence of momentum on transition between up/down
 	keys[event.keyCode] = false;
 }
