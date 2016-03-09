@@ -85,7 +85,8 @@ function initObjects() {
 		playing: true
 	};
 
-	transXBall = 0.01 * (Math.floor(2 * Math.random()) ? 1 : -1); // Randomize the direction the ball starts travelling
+	transXBall = 0.01;
+	xDir = (Math.floor(2 * Math.random()) ? 1 : -1); // Randomize the direction the ball starts travelling
 }
 
 /* initGL(): Spin up initial WebGL program state */
