@@ -280,7 +280,8 @@ function resetBall(playerNum) {
 	ball.speed = 1;
 	ball.color = vec4(1.0, 1.0, 1.0, 1.0);
 	theta = 0;
-	transXBall = 0.01 * ((playerNum % 2) ? -1 : 1);
+	transXBall = 0.01;
+	xDir = ((playerNum % 2) ? -1 : 1);
 }
 
 /* changeColor(): update the ball with a random color after a paddle collision */
