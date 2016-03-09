@@ -302,7 +302,7 @@ function updateScore(playerNum) {
 		document.getElementById('score2').innerHTML = field.score2;
 	}
 
-	if (field.score1 == 1) { // Player 1 has won!
+	if (field.score1 == 10) { // Player 1 has won!
 		field.playing = false; // End game
 		var canvas = document.getElementById("canvas");
 		canvas.style.background = "url(p1win.png)";
@@ -310,7 +310,7 @@ function updateScore(playerNum) {
 		new Audio("Victory!.ogg").play();
 	}
 
-	else if (field.score2 == 1) { // Player 2 has won!
+	else if (field.score2 == 10) { // Player 2 has won!
 		field.playing = false; // End game
 		var canvas = document.getElementById("canvas");
 		canvas.style.background = "url(p2win.png)";
